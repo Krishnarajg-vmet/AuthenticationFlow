@@ -16,7 +16,7 @@ public class ViewController {
 		return "home";
 	}
 	
-	@GetMapping("/users")
+	@GetMapping("/public/users")
 	public String usersPage() {
 		return "users";
 	}

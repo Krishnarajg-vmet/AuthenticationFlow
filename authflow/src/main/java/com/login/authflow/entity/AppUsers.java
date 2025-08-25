@@ -5,16 +5,21 @@ import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name="users")
 public class AppUsers {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="user_id")
 	private Long userId;
 	
+	@Column(name="username")
 	private String username;
 	
+	@Column(name="password")
 	private String password;
 	
+	@Column(name="roles")
 	List<String> roles;
 
 	public Long getUserId() {
