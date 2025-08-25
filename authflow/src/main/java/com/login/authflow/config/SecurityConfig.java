@@ -20,21 +20,27 @@ public class SecurityConfig {
 					.anyRequest().authenticated()
 			)
 			.formLogin(form -> form
-					.loginPage("/login")
-					.defaultSuccessUrl("/home", true)
-					.failureUrl("/login?error=true")
-					.permitAll()
-			)
+				    .loginPage("/login")
+				    .defaultSuccessUrl("/home", true)
+				    .failureHandler((request, response, exception) -> {
+				        exception.printStackTrace(); // Log the real reason
+				        response.sendRedirect("/login?error=true");
+				    })
+				    .permitAll()
+				)
 			.logout(logout -> logout
 					.logoutUrl("/logout")
 					.logoutSuccessUrl("/login?logout=true")
+					.invalidateHttpSession(true)
+					.clearAuthentication(true)
+					.deleteCookies("JSESSIONID")
 					.permitAll()
 			)
 			.sessionManagement(session -> session
 					.sessionFixation().migrateSession()
 					.invalidSessionUrl("/sessionInvalid")
 					.maximumSessions(1)
-					.maxSessionsPreventsLogin(true)
+					.maxSessionsPreventsLogin(false)
 					.expiredUrl("/sessionExpired")
 			);
 		 return http.build();
